@@ -1,5 +1,4 @@
 import numpy as np,csv,time,h5py 
-import matplotlib.pyplot as plt
 
 def SaveH5(filename, data_array):
     try:
@@ -9,26 +8,15 @@ def SaveH5(filename, data_array):
     except Exception as e:
         print(f"Error: {e}")
         
-INDICATOR = "ATR" # CHANGE THE INDICATOR ACCORDINGLY
+INDICATOR = "YOUR_INDICATOR" # CHANGE THE INDICATOR ACCORDINGLY
 
-def Average_True_Range_TREND(data, period):
-    atr = [0]  # ATR for the first data point is 0
-    for i in range(1, len(data)):
-            high = data['High'][i]
-            low = data['Low'][i]
-            previous_close = data['Close'][i - 1]
-            
-            tr = max(high - low, abs(high - previous_close), abs(low - previous_close))
-            atr_value = (atr[-1] * (period - 1) + tr) / period
-            atr.append(atr_value)
-    
-    return atr
+# ENTER YOUR INDICATOR HERE
 
 Closing = []
 High = []
 Low = []
 Open = []
-with open("Bitstamp_ETHUSD_2023_minute.csv",'r') as f:
+with open("YOUR_FOLDER_PATH",'r') as f:
     csv_r = csv.DictReader(f)
     rows = list(csv_r)
     for i in range(len(rows) -1,-1,-1):
@@ -52,13 +40,8 @@ data = {
 st = time.time()
 DATA = []
 for period in periods:
-    DATA.append(Average_True_Range_TREND(data,period)) # CHANGE THE ARGUMENTS ACCORDINGLY
-print("Time passed is : ",time.time() - st)
-
-print("Length : ",len(DATA))
-plt.figure()
-plt.plot(DATA[5])
-plt.show()
+    #TODO: Function Implementation According to convention
+print("Time taken : ",time.time() - st)
 
 for d in range(len(DATA)):
     SaveH5(f"IndicatorData/{INDICATOR}/{INDICATOR}_{d}.h5",DATA[d]) 
